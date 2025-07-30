@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empadas do Graja</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Seu CSS permanece igual */
+    /* ... (manter todo seu CSS aqui como está) ... */
+    /* Para não deixar enorme, no código final só copie seu CSS original */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fff8f0 0%, #ffe4cc 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(90deg, #e67e22, #d35400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 8px rgba(211, 84, 0, 0.4);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header img {
+      height: 60px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 140, 0, 0.7);
+      transition: transform 0.3s ease;
+    }
+    header img:hover {
+      transform: scale(1.1);
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: white;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+      margin: 0;
+      user-select: none;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto 3rem;
+      background: white;
+      padding: 2.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #d35400;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      user-select: none;
+    }
+
+    form, #formulario {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem 2rem;
+      margin-bottom: 1.8rem;
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      font-weight: 600;
+      color: #444;
+      font-size: 1rem;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+      margin-top: 0.4rem;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      border: 2px solid #d9d9d9;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      outline-offset: 2px;
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #d35400;
+      box-shadow: 0 0 8px rgba(211, 84, 0, 0.4);
+    }
+
+    button {
+      grid-column: 1 / -1;
+      padding: 0.85rem 1.5rem;
+      font-size: 1.15rem;
+      background: #d35400;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(211, 84, 0, 0.6);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background-color: #b24300;
+      box-shadow: 0 6px 18px rgba(178, 67, 0, 0.8);
+    }
+
+    #filtros {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+    #filtros > div {
+      flex: 1 1 220px;
+      min-width: 180px;
+    }
+    #filtros label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: block;
+      color: #555;
+      user-select: none;
+    }
+    #filtros input,
+    #filtros select {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: 2px solid #d9d9d9;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      outline-offset: 2px;
+    }
+    #filtros input:focus,
+    #filtros select:focus {
+      border-color: #d35400;
+      box-shadow: 0 0 8px rgba(211, 84, 0, 0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      font-size: 1rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      overflow-x: auto;
+      border-radius: 12px;
+      user-select: none;
+    }
+    thead tr {
+      background-color: #d35400;
+      color: white;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-radius: 12px 12px 0 0;
+    }
+    thead th {
+      padding: 0.9rem 1rem;
+      text-align: center;
+      user-select: none;
+    }
+    tbody tr {
+      background: #fff;
+      box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border-radius: 12px;
+    }
+    tbody tr:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgb(211 84 0 / 0.3);
+    }
+    tbody tr:nth-child(even) {
+      background-color: #fff3e6;
+    }
+    tbody td {
+      padding: 0.8rem 1rem;
+      border: none;
+      vertical-align: middle;
+      text-align: center;
+      user-select: text;
+    }
+
+    .paid {
+      background-color: #d4edda !important;
+    }
+    .pending {
+      background-color: #f8d7da !important;
+    }
+    select {
+      cursor: pointer;
+    }
+    td select {
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      border: 1.5px solid #ccc;
+      font-weight: 600;
+      color: #444;
+      user-select: none;
+      transition: border-color 0.3s ease;
+    }
+    td select:hover, td select:focus {
+      border-color: #d35400;
+      box-shadow: 0 0 5px rgba(211, 84, 0, 0.5);
+      outline: none;
+    }
+
+    button.remover {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.45rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button.remover:hover {
+      background: #c0392b;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+      #formulario, #filtros {
+        display: block;
+      }
+      #filtros > div {
+        margin-bottom: 1rem;
+        min-width: 100%;
+      }
+      tbody td {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.5rem;
+      }
+      header h1 {
+        font-size: 1.6rem;
+      }
+      header img {
+        height: 40px;
+      }
+      button {
+        font-size: 1rem;
+        padding: 0.7rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="imagem/logo.jpg" alt="Logo Empadas do Graja" />
+    <h1>Empadas do Graja</h1>
+  </header>
+  <main>
+    <h2>Registrar Venda</h2>
+    <div id="formulario">
+      <label>Data (dd/mm/aaaa):
+        <input type="text" id="data" placeholder="dd/mm/aaaa" maxlength="10" />
+      </label>
+      <label>Nome do Cliente:
+        <input type="text" id="nome" placeholder="Nome completo" />
+      </label>
+      <label>Quantidade de Empadas (R$ 6,00):
+        <input type="number" id="empada" min="0" value="0" />
+      </label>
+      <label>Quantidade de Empadão Frango (R$ 13,00):
+        <input type="number" id="empadaoFrango" min="0" value="0" />
+      </label>
+      <label>Quantidade de Empadão Camarão (R$ 15,00):
+        <input type="number" id="empadaoCamarao" min="0" value="0" />
+      </label>
+      <label>Quantidade de Sanduíches (R$ 8,00):
+        <input type="number" id="sanduiche" min="0" value="0" />
+      </label>
+      <label>Status:
+        <select id="status">
+          <option value="Pendente">Pendente</option>
+          <option value="Pago">Pago</option>
+        </select>
+      </label>
+      <button id="btnAdicionar">Adicionar</button>
+    </div>
+
+    <div id="filtros">
+      <div>
+        <label for="filtroStatus"><strong>Filtrar por Status:</strong></label>
+        <select id="filtroStatus" onchange="filtrarTabela()">
+          <option value="Todos">Todos</option>
+          <option value="Pendente">Pendentes</option>
+          <option value="Pago">Pagos</option>
+        </select>
+      </div>
+      <div>
+        <label for="filtroNome"><strong>Filtrar por Nome:</strong></label>
+        <input type="text" id="filtroNome" placeholder="Digite o nome..." oninput="filtrarTabela()" />
+      </div>
+      <div>
+        <label for="filtroData"><strong>Filtrar por Data (dd/mm/aaaa):</strong></label>
+        <input type="text" id="filtroData" placeholder="dd/mm/aaaa" maxlength="10" oninput="filtrarTabela()" />
+      </div>
+    </div>
+
+    <table id="tabela">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Nome</th>
+          <th>Empadas (6)</th>
+          <th>Empadão Frango (13)</th>
+          <th>Empadão Camarão (15)</th>
+          <th>Sanduíches (8)</th>
+          <th>Total (R$)</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const firebaseConfig = { 
+        apiKey : "AIzaSyAQTIteo3w2VpSl2G1irbJxzu6kPePEoT4" , 
+        authDomain : "empadas-do-graja.firebaseapp.com" , 
+        databaseURL : "https://empadas-do-graja-default-rtdb.firebaseio.com" , 
+        projectId : "empadas-do-graja" , 
+        storageBucket : "empadas-do-graja.firebasestorage.app" , 
+        messagingSenderId : "614514855189" , 
+        appId : "1:614514855189:web:b739018a71a1edd116ed1c" , 
+        measurementId : "G-XYHT8B9M7V" 
+      };
+
+      // Inicializa o Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      // Preços
+      const PRECO_EMPADA = 6;
+      const PRECO_EMPADAO_FRANGO = 13;
+      const PRECO_EMPADAO_CAMARAO = 15;
+      const PRECO_SANDUICHE = 8;
+
+      // Guarda as vendas localmente (id no Firebase => dados)
+      const vendas = {};
+
+      // Validar data no formato dd/mm/aaaa
+      function validarDataBR(dataStr) {
+        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+        const match = dataStr.match(regex);
+        if (!match) return false;
+
+        const dia = parseInt(match[1], 10);
+        const mes = parseInt(match[2], 10);
+        const ano = parseInt(match[3], 10);
+
+        if (mes < 1 || mes > 12) return false;
+        if (dia < 1 || dia > 31) return false;
+
+        const diasNoMes = [31, (ano % 4 === 0 && (ano % 100 !== 0 || ano % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if (dia > diasNoMes[mes - 1]) return false;
+
+        return true;
+      }
+
+      // Preenche o campo data com data atual no formato dd/mm/aaaa
+      function preencherDataAtual() {
+        const inputData = document.getElementById('data');
+        const hoje = new Date();
+        const dia = hoje.getDate().toString().padStart(2, '0');
+        const mes = (hoje.getMonth() + 1).toString().padStart(2, '0');
+        const ano = hoje.getFullYear();
+        inputData.value = `${dia}/${mes}/${ano}`;
+      }
+
+      preencherDataAtual();
+
+      // Função para limpar objeto vendas local
+      function vendasClear() {
+        for (const key in vendas) {
+          if (vendas.hasOwnProperty(key)) {
+            delete vendas[key];
+          }
+        }
+      }
+
+      // Adiciona uma linha na tabela com dados da venda
+      function adicionarLinhaTabela(id, venda) {
+        const tabela = document.getElementById('tabela').getElementsByTagName('tbody')[0];
+        const novaLinha = tabela.insertRow();
+        novaLinha.dataset.id = id;
+        novaLinha.className = venda.status === 'Pago' ? 'paid' : 'pending';
+
+        novaLinha.innerHTML = `
+          <td>${venda.data}</td>
+          <td>${venda.nome}</td>
+          <td>${venda.empada}</td>
+          <td>${venda.empadaoFrango}</td>
+          <td>${venda.empadaoCamarao}</td>
+          <td>${venda.sanduiche}</td>
+          <td>${parseFloat(venda.total).toFixed(2)}</td>
+          <td>
+            <select onchange="atualizarStatusFirebase(this)">
+              <option value="Pendente" ${venda.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
+              <option value="Pago" ${venda.status === 'Pago' ? 'selected' : ''}>Pago</option>
+            </select>
+          </td>
+          <td><button class="remover" onclick="removerVendaFirebase(this)">Remover</button></td>
+        `;
+      }
+
+      // Carrega vendas do Firebase e atualiza a tabela
+      function carregarVendasDoFirebase() {
+        const vendasRef = ref(db, 'vendas');
+        onValue(vendasRef, (snapshot) => {
+          const tabelaBody = document.querySelector('#tabela tbody');
+          tabelaBody.innerHTML = ''; // Limpa tabela
+          vendasClear();
+
+          const dados = snapshot.val();
+          if (!dados) return;
+
+          Object.entries(dados).forEach(([id, venda]) => {
+            vendas[id] = venda;
+            adicionarLinhaTabela(id, venda);
+          });
+
+          filtrarTabela();
+        });
+      }
+
+      carregarVendasDoFirebase();
+
+      // Adiciona cliente/venda no Firebase
+      async function adicionarCliente() {
+        const dataInput = document.getElementById('data').value.trim();
+        const nome = document.getElementById('nome').value.trim();
+        const empada = parseInt(document.getElementById('empada').value) || 0;
+        const empadaoFrango = parseInt(document.getElementById('empadaoFrango').value) || 0;
+        const empadaoCamarao = parseInt(document.getElementById('empadaoCamarao').value) || 0;
+        const sanduiche = parseInt(document.getElementById('sanduiche').value) || 0;
+        const status = document.getElementById('status').value;
+
+        // Validação básica
+        if (!dataInput || !validarDataBR(dataInput)) {
+          alert('Data inválida! Use o formato dd/mm/aaaa.');
+          return;
+        }
+        if (!nome) {
+          alert('Nome do cliente é obrigatório.');
+          return;
+        }
+
+        const total =
+          empada * PRECO_EMPADA +
+          empadaoFrango * PRECO_EMPADAO_FRANGO +
+          empadaoCamarao * PRECO_EMPADAO_CAMARAO +
+          sanduiche * PRECO_SANDUICHE;
+
+        const vendaObj = {
+          data: dataInput,
+          nome,
+          empada,
+          empadaoFrango,
+          empadaoCamarao,
+          sanduiche,
+          total: total.toFixed(2),
+          status
+        };
+
+        try {
+          await push(ref(db, 'vendas'), vendaObj);
+          // Limpar campos após adicionar
+          document.getElementById('nome').value = '';
+          document.getElementById('empada').value = '0';
+          document.getElementById('empadaoFrango').value = '0';
+          document.getElementById('empadaoCamarao').value = '0';
+          document.getElementById('sanduiche').value = '0';
+          document.getElementById('status').value = 'Pendente';
+          preencherDataAtual();
+        } catch (error) {
+          alert('Erro ao adicionar venda: ' + error.message);
+        }
+      }
+
+      // Atualiza status no Firebase ao mudar select
+      window.atualizarStatusFirebase = async function (selectElement) {
+        const linha = selectElement.closest('tr');
+        const id = linha.dataset.id;
+        const novoStatus = selectElement.value;
+        if (!id) return;
+
+        try {
+          await update(ref(db, `vendas/${id}`), { status: novoStatus });
+        } catch (error) {
+          alert('Erro ao atualizar status: ' + error.message);
+        }
+      };
+
+      // Remove venda no Firebase ao clicar no botão
+      window.removerVendaFirebase = async function (button) {
+        const linha = button.closest('tr');
+        const id = linha.dataset.id;
+        if (!id) return;
+
+        if (!confirm('Deseja realmente remover essa venda?')) return;
+
+        try {
+          await remove(ref(db, `vendas/${id}`));
+        } catch (error) {
+          alert('Erro ao remover venda: ' + error.message);
+        }
+      };
+
+      // Filtro da tabela (existe em seu código)
+      window.filtrarTabela = function () {
+        const filtroStatus = document.getElementById('filtroStatus').value.toLowerCase();
+        const filtroNome = document.getElementById('filtroNome').value.toLowerCase();
+        const filtroData = document.getElementById('filtroData').value.toLowerCase();
+
+        const linhas = document.querySelectorAll('#tabela tbody tr');
+
+        linhas.forEach(linha => {
+          const status = linha.querySelector('td:nth-child(8)').textContent.toLowerCase();
+          const nome = linha.querySelector('td:nth-child(2)').textContent.toLowerCase();
+          const data = linha.querySelector('td:nth-child(1)').textContent.toLowerCase();
+
+          const mostra =
+            (filtroStatus === 'todos' || status === filtroStatus) &&
+            nome.includes(filtroNome) &&
+            data.includes(filtroData);
+
+          linha.style.display = mostra ? '' : 'none';
+        });
+      };
+
+      // Adiciona evento ao botão
+      document.getElementById('btnAdicionar').addEventListener('click', (e) => {
+        e.preventDefault();
+        adicionarCliente();
+      });
+
+    });
+  </script>
+</body>
+</html>
