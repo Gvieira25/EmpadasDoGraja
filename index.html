@@ -6,9 +6,7 @@
   <title>Empadas do Graja</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* Seu CSS permanece igual */
-    /* ... (manter todo seu CSS aqui como está) ... */
-    /* Para não deixar enorme, no código final só copie seu CSS original */
+    /* Seu CSS original */
     * {
       box-sizing: border-box;
     }
@@ -30,7 +28,9 @@
       box-shadow: 0 4px 8px rgba(211, 84, 0, 0.4);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
+      user-select: none;
+      position: relative;
     }
     header img {
       height: 60px;
@@ -49,6 +49,83 @@
       margin: 0;
       user-select: none;
     }
+
+    /* Menu 3 pontinhos no canto superior esquerdo */
+    #menu-hamburger {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      width: 30px;
+      height: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 25;
+    }
+    #menu-hamburger span {
+      display: block;
+      height: 4px;
+      background-color: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Menu lateral */
+    #menu-lateral {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+      transition: left 0.3s ease;
+      z-index: 30;
+      overflow-y: auto;
+    }
+    #menu-lateral.open {
+      left: 0;
+    }
+    #menu-lateral h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #d35400;
+      font-weight: 700;
+      user-select: none;
+    }
+    #menu-lateral nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #menu-lateral nav ul li {
+      margin-bottom: 1rem;
+    }
+    #menu-lateral nav ul li button {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: #d35400;
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+      padding: 0.3rem 0;
+      width: 100%;
+      text-align: left;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    #menu-lateral nav ul li button:hover,
+    #menu-lateral nav ul li button.active {
+      border-bottom: 2px solid #d35400;
+      outline: none;
+    }
+
+    /* Conteúdo principal */
     main {
       max-width: 900px;
       margin: 2rem auto 3rem;
@@ -56,7 +133,9 @@
       padding: 2.5rem 2rem;
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      min-height: 600px;
     }
+
     h2 {
       margin-top: 0;
       font-weight: 700;
@@ -67,6 +146,7 @@
       user-select: none;
     }
 
+    /* Formulário original e tabela */
     form, #formulario {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -233,6 +313,61 @@
       background: #c0392b;
     }
 
+    /* NOVAS ABAS - esconder e mostrar */
+    .aba {
+      display: none;
+    }
+    .aba.ativa {
+      display: block;
+    }
+
+    /* Estilização especial para a área de cadastro clientes */
+    #form-cadastrar-cliente label {
+      font-weight: 600;
+      color: #444;
+    }
+    #form-cadastrar-cliente input {
+      width: 100%;
+      margin-top: 0.4rem;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      border: 2px solid #d9d9d9;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      outline-offset: 2px;
+    }
+    #form-cadastrar-cliente input:focus {
+      border-color: #d35400;
+      box-shadow: 0 0 8px rgba(211, 84, 0, 0.4);
+    }
+    #lista-clientes {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 1rem;
+      border: 1px solid #d9d9d9;
+      border-radius: 10px;
+      padding: 0.5rem;
+      user-select: none;
+    }
+    #lista-clientes li {
+      padding: 0.3rem 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    #lista-clientes li:last-child {
+      border-bottom: none;
+    }
+    #lista-clientes li:hover {
+      background-color: #ffe4cc;
+      cursor: default;
+    }
+
+    /* Gráfico ocupa 100% largura */
+    #grafico-container {
+      max-width: 100%;
+      user-select: none;
+    }
+
+    /* Responsivo */
     @media (max-width: 720px) {
       main {
         margin: 1rem;
@@ -259,308 +394,560 @@
         font-size: 1rem;
         padding: 0.7rem 1rem;
       }
+      #menu-lateral {
+        width: 100vw;
+      }
     }
+
+    /* Total geral no topo da aba principal */
+    #total-geral {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #b24300;
+      user-select: none;
+    }
+
   </style>
 </head>
 <body>
   <header>
+    <div id="menu-hamburger" tabindex="0" aria-label="Abrir menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <img src="imagem/logo.jpg" alt="Logo Empadas do Graja" />
     <h1>Empadas do Graja</h1>
   </header>
+
+  <!-- Menu lateral com abas -->
+  <aside id="menu-lateral" aria-label="Menu lateral principal">
+    <h3>Menu</h3>
+    <nav>
+      <ul>
+        <li><button data-aba="principal" class="active">Principal</button></li>
+        <li><button data-aba="receita">Receita</button></li>
+        <li><button data-aba="grafico">Gráfico</button></li>
+        <li><button data-aba="clientes">Cadastrar Clientes</button></li>
+      </ul>
+    </nav>
+  </aside>
+
   <main>
-    <h2>Registrar Venda</h2>
-    <div id="formulario">
-      <label>Data (dd/mm/aaaa):
-        <input type="text" id="data" placeholder="dd/mm/aaaa" maxlength="10" />
-      </label>
-      <label>Nome do Cliente:
-        <input type="text" id="nome" placeholder="Nome completo" />
-      </label>
-      <label>Quantidade de Empadas (R$ 6,00):
-        <input type="number" id="empada" min="0" value="0" />
-      </label>
-      <label>Quantidade de Empadão Frango (R$ 13,00):
-        <input type="number" id="empadaoFrango" min="0" value="0" />
-      </label>
-      <label>Quantidade de Empadão Camarão (R$ 15,00):
-        <input type="number" id="empadaoCamarao" min="0" value="0" />
-      </label>
-      <label>Quantidade de Sanduíches (R$ 8,00):
-        <input type="number" id="sanduiche" min="0" value="0" />
-      </label>
-      <label>Status:
-        <select id="status">
-          <option value="Pendente">Pendente</option>
-          <option value="Pago">Pago</option>
-        </select>
-      </label>
-      <button id="btnAdicionar">Adicionar</button>
-    </div>
+    <!-- ABA PRINCIPAL -->
+    <section id="aba-principal" class="aba ativa" aria-live="polite">
+      <h2>Registrar Venda</h2>
+      <div id="total-geral">Total vendido: R$ 0,00 (Pago: R$ 0,00 | Pendentes: R$ 0,00)</div>
 
-    <div id="filtros">
-      <div>
-        <label for="filtroStatus"><strong>Filtrar por Status:</strong></label>
-        <select id="filtroStatus" onchange="filtrarTabela()">
-          <option value="Todos">Todos</option>
-          <option value="Pendente">Pendentes</option>
-          <option value="Pago">Pagos</option>
-        </select>
+      <div id="formulario">
+        <label>Data (dd/mm/aaaa):
+          <input type="text" id="data" placeholder="dd/mm/aaaa" maxlength="10" autocomplete="off" />
+        </label>
+        <label>Nome do Cliente:
+          <input list="clientes-cadastrados" type="text" id="nome" placeholder="Nome completo" autocomplete="off" />
+          <datalist id="clientes-cadastrados"></datalist>
+        </label>
+        <label>Quantidade de Empadas (R$ 6,00):
+          <input type="number" id="empada" min="0" value="0" />
+        </label>
+        <label>Quantidade de Empadão Frango (R$ 13,00):
+          <input type="number" id="empadaoFrango" min="0" value="0" />
+        </label>
+        <label>Quantidade de Empadão Camarão (R$ 15,00):
+          <input type="number" id="empadaoCamarao" min="0" value="0" />
+        </label>
+        <label>Quantidade de Sanduíches (R$ 8,00):
+          <input type="number" id="sanduiche" min="0" value="0" />
+        </label>
+        <label>Status:
+          <select id="status">
+            <option value="Pendente">Pendente</option>
+            <option value="Pago">Pago</option>
+          </select>
+        </label>
+        <button id="btnAdicionar">Adicionar</button>
       </div>
-      <div>
-        <label for="filtroNome"><strong>Filtrar por Nome:</strong></label>
-        <input type="text" id="filtroNome" placeholder="Digite o nome..." oninput="filtrarTabela()" />
-      </div>
-      <div>
-        <label for="filtroData"><strong>Filtrar por Data (dd/mm/aaaa):</strong></label>
-        <input type="text" id="filtroData" placeholder="dd/mm/aaaa" maxlength="10" oninput="filtrarTabela()" />
-      </div>
-    </div>
 
-    <table id="tabela">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Nome</th>
-          <th>Empadas (6)</th>
-          <th>Empadão Frango (13)</th>
-          <th>Empadão Camarão (15)</th>
-          <th>Sanduíches (8)</th>
-          <th>Total (R$)</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+      <div id="filtros">
+        <div>
+          <label for="filtroStatus"><strong>Filtrar por Status:</strong></label>
+          <select id="filtroStatus" onchange="filtrarTabela()">
+            <option value="Todos">Todos</option>
+            <option value="Pendente">Pendentes</option>
+            <option value="Pago">Pagos</option>
+          </select>
+        </div>
+        <div>
+          <label for="filtroNome"><strong>Filtrar por Nome:</strong></label>
+          <input type="text" id="filtroNome" placeholder="Digite o nome..." oninput="filtrarTabela()" autocomplete="off" />
+        </div>
+        <div>
+          <label for="filtroData"><strong>Filtrar por Data (dd/mm/aaaa):</strong></label>
+          <input type="text" id="filtroData" placeholder="dd/mm/aaaa" maxlength="10" oninput="filtrarTabela()" autocomplete="off" />
+        </div>
+      </div>
+
+      <table id="tabela" aria-label="Tabela de vendas">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Nome</th>
+            <th>Empadas</th>
+            <th>Empadão Frango</th>
+            <th>Empadão Camarão</th>
+            <th>Sanduíche</th>
+            <th>Total (R$)</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Vendas adicionadas aparecerão aqui -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ABA RECEITA -->
+    <section id="aba-receita" class="aba" aria-live="polite">
+      <h2>Receita</h2>
+      <div>
+        <button class="btn-subtab active" data-subaba="despesas">Despesas</button>
+        <button class="btn-subtab" data-subaba="ganhos">Ganhos</button>
+      </div>
+      <div id="subaba-despesas" class="subaba ativa">
+        <p><em>Ainda não implementado. Aqui você poderá adicionar e visualizar despesas.</em></p>
+      </div>
+      <div id="subaba-ganhos" class="subaba" style="display:none;">
+        <p><strong>Total ganhos (vendas pagas):</strong> R$ <span id="totalGanhos">0,00</span></p>
+      </div>
+    </section>
+
+    <!-- ABA GRÁFICO -->
+    <section id="aba-grafico" class="aba" aria-live="polite">
+      <h2>Gráfico de Vendas Mensais</h2>
+      <canvas id="graficoVendas" width="600" height="300" aria-label="Gráfico de vendas mensais" role="img"></canvas>
+    </section>
+
+    <!-- ABA CADASTRAR CLIENTES -->
+    <section id="aba-clientes" class="aba" aria-live="polite">
+      <h2>Cadastrar Clientes</h2>
+      <form id="form-cadastrar-cliente">
+        <label for="nomeCliente">Nome do Cliente:</label>
+        <input type="text" id="nomeCliente" placeholder="Nome completo" autocomplete="off" required />
+        <button type="submit">Adicionar Cliente</button>
+      </form>
+      <ul id="lista-clientes" aria-live="polite" aria-atomic="true" aria-relevant="additions"></ul>
+    </section>
   </main>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    document.addEventListener('DOMContentLoaded', () => {
+  <script>
+    // Controle do menu hamburguer e menu lateral
+    const menuHamburger = document.getElementById('menu-hamburger');
+    const menuLateral = document.getElementById('menu-lateral');
 
-      const firebaseConfig = { 
-        apiKey : "AIzaSyAQTIteo3w2VpSl2G1irbJxzu6kPePEoT4" , 
-        authDomain : "empadas-do-graja.firebaseapp.com" , 
-        databaseURL : "https://empadas-do-graja-default-rtdb.firebaseio.com" , 
-        projectId : "empadas-do-graja" , 
-        storageBucket : "empadas-do-graja.firebasestorage.app" , 
-        messagingSenderId : "614514855189" , 
-        appId : "1:614514855189:web:b739018a71a1edd116ed1c" , 
-        measurementId : "G-XYHT8B9M7V" 
-      };
-
-      // Inicializa o Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app);
-
-      // Preços
-      const PRECO_EMPADA = 6;
-      const PRECO_EMPADAO_FRANGO = 13;
-      const PRECO_EMPADAO_CAMARAO = 15;
-      const PRECO_SANDUICHE = 8;
-
-      // Guarda as vendas localmente (id no Firebase => dados)
-      const vendas = {};
-
-      // Validar data no formato dd/mm/aaaa
-      function validarDataBR(dataStr) {
-        const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-        const match = dataStr.match(regex);
-        if (!match) return false;
-
-        const dia = parseInt(match[1], 10);
-        const mes = parseInt(match[2], 10);
-        const ano = parseInt(match[3], 10);
-
-        if (mes < 1 || mes > 12) return false;
-        if (dia < 1 || dia > 31) return false;
-
-        const diasNoMes = [31, (ano % 4 === 0 && (ano % 100 !== 0 || ano % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        if (dia > diasNoMes[mes - 1]) return false;
-
-        return true;
+    menuHamburger.addEventListener('click', () => {
+      menuLateral.classList.toggle('open');
+      menuHamburger.classList.toggle('open');
+    });
+    // Acessibilidade: abrir menu com Enter
+    menuHamburger.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        menuHamburger.click();
       }
+    });
 
-      // Preenche o campo data com data atual no formato dd/mm/aaaa
-      function preencherDataAtual() {
-        const inputData = document.getElementById('data');
-        const hoje = new Date();
-        const dia = hoje.getDate().toString().padStart(2, '0');
-        const mes = (hoje.getMonth() + 1).toString().padStart(2, '0');
-        const ano = hoje.getFullYear();
-        inputData.value = `${dia}/${mes}/${ano}`;
-      }
+    // Controle abas principais
+    const botoesAbas = document.querySelectorAll('#menu-lateral nav ul li button');
+    const abas = document.querySelectorAll('main .aba');
 
-      preencherDataAtual();
+    botoesAbas.forEach(botao => {
+      botao.addEventListener('click', () => {
+        // Ativa botão selecionado
+        botoesAbas.forEach(b => b.classList.remove('active'));
+        botao.classList.add('active');
+        // Mostra aba correspondente
+        abas.forEach(aba => aba.classList.remove('ativa'));
+        abas.forEach(aba => aba.style.display = 'none');
 
-      // Função para limpar objeto vendas local
-      function vendasClear() {
-        for (const key in vendas) {
-          if (vendas.hasOwnProperty(key)) {
-            delete vendas[key];
-          }
+        const abaId = 'aba-' + botao.dataset.aba;
+        const abaSelecionada = document.getElementById(abaId);
+        if(abaSelecionada) {
+          abaSelecionada.classList.add('ativa');
+          abaSelecionada.style.display = 'block';
         }
+
+        // Fecha menu lateral após seleção
+        menuLateral.classList.remove('open');
+        menuHamburger.classList.remove('open');
+
+        // Atualizar gráfico ao abrir aba gráfico
+        if(botao.dataset.aba === 'grafico'){
+          atualizarGrafico();
+        }
+
+        // Atualizar ganhos na aba receita ganhos
+        if(botao.dataset.aba === 'receita'){
+          atualizarGanhos();
+        }
+      });
+    });
+
+    // Controle subabas receita
+    const botoesSubAbas = document.querySelectorAll('#aba-receita .btn-subtab');
+    const subAbas = {
+      despesas: document.getElementById('subaba-despesas'),
+      ganhos: document.getElementById('subaba-ganhos')
+    };
+
+    botoesSubAbas.forEach(botao => {
+      botao.addEventListener('click', () => {
+        botoesSubAbas.forEach(b => b.classList.remove('active'));
+        botao.classList.add('active');
+        const subaba = botao.dataset.subaba;
+        Object.keys(subAbas).forEach(key => {
+          if(key === subaba) {
+            subAbas[key].style.display = 'block';
+            subAbas[key].classList.add('ativa');
+          } else {
+            subAbas[key].style.display = 'none';
+            subAbas[key].classList.remove('ativa');
+          }
+        });
+      });
+    });
+
+    // Dados vendas armazenados localmente na variável
+    let vendas = [];
+    let clientes = [];
+
+    // Referências elementos principais
+    const tabelaCorpo = document.querySelector('#tabela tbody');
+    const totalGeral = document.getElementById('total-geral');
+    const totalGanhosSpan = document.getElementById('totalGanhos');
+    const datalistClientes = document.getElementById('clientes-cadastrados');
+    const listaClientesUl = document.getElementById('lista-clientes');
+
+    // Inputs do formulário principal
+    const inputData = document.getElementById('data');
+    const inputNome = document.getElementById('nome');
+    const inputEmpada = document.getElementById('empada');
+    const inputEmpadaoFrango = document.getElementById('empadaoFrango');
+    const inputEmpadaoCamarao = document.getElementById('empadaoCamarao');
+    const inputSanduiche = document.getElementById('sanduiche');
+    const inputStatus = document.getElementById('status');
+    const btnAdicionar = document.getElementById('btnAdicionar');
+
+    // Formulário cadastro clientes
+    const formCadastrarCliente = document.getElementById('form-cadastrar-cliente');
+    const inputNomeCliente = document.getElementById('nomeCliente');
+
+    // Valores unitários
+    const precos = {
+      empada: 6,
+      empadaoFrango: 13,
+      empadaoCamarao: 15,
+      sanduiche: 8
+    };
+
+    // Função para formatar valor em moeda brasileira
+    function formatarReal(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // Validação simples para data no formato dd/mm/aaaa
+    function validarData(data) {
+      // Regex para dd/mm/aaaa
+      const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+      return regex.test(data);
+    }
+
+    // Função para adicionar venda
+    btnAdicionar.addEventListener('click', e => {
+      e.preventDefault();
+
+      const data = inputData.value.trim();
+      const nome = inputNome.value.trim();
+      const empada = Number(inputEmpada.value) || 0;
+      const empadaoFrango = Number(inputEmpadaoFrango.value) || 0;
+      const empadaoCamarao = Number(inputEmpadaoCamarao.value) || 0;
+      const sanduiche = Number(inputSanduiche.value) || 0;
+      const status = inputStatus.value;
+
+      if(!validarData(data)){
+        alert('Data inválida. Use o formato dd/mm/aaaa');
+        inputData.focus();
+        return;
+      }
+      if(nome === ''){
+        alert('Informe o nome do cliente.');
+        inputNome.focus();
+        return;
+      }
+      if(empada + empadaoFrango + empadaoCamarao + sanduiche === 0){
+        alert('Informe pelo menos 1 item vendido.');
+        return;
       }
 
-      // Adiciona uma linha na tabela com dados da venda
-      function adicionarLinhaTabela(id, venda) {
-        const tabela = document.getElementById('tabela').getElementsByTagName('tbody')[0];
-        const novaLinha = tabela.insertRow();
-        novaLinha.dataset.id = id;
-        novaLinha.className = venda.status === 'Pago' ? 'paid' : 'pending';
+      // Calcula total
+      const total =
+        empada * precos.empada +
+        empadaoFrango * precos.empadaoFrango +
+        empadaoCamarao * precos.empadaoCamarao +
+        sanduiche * precos.sanduiche;
 
-        novaLinha.innerHTML = `
+      // Adiciona venda na lista
+      vendas.push({
+        data,
+        nome,
+        empada,
+        empadaoFrango,
+        empadaoCamarao,
+        sanduiche,
+        total,
+        status
+      });
+
+      // Atualiza tabela
+      atualizarTabela();
+      atualizarTotais();
+
+      // Limpa formulário
+      inputData.value = '';
+      inputNome.value = '';
+      inputEmpada.value = 0;
+      inputEmpadaoFrango.value = 0;
+      inputEmpadaoCamarao.value = 0;
+      inputSanduiche.value = 0;
+      inputStatus.value = 'Pendente';
+
+      inputData.focus();
+    });
+
+    // Atualizar tabela de vendas exibida
+    function atualizarTabela() {
+      tabelaCorpo.innerHTML = '';
+
+      // Aplica filtro para mostrar somente os visíveis (filtrados)
+      let filtroStatus = document.getElementById('filtroStatus').value;
+      let filtroNome = document.getElementById('filtroNome').value.toLowerCase();
+      let filtroData = document.getElementById('filtroData').value;
+
+      vendas.forEach((venda, index) => {
+        // Filtros
+        if(filtroStatus !== 'Todos' && venda.status !== filtroStatus){
+          return;
+        }
+        if(filtroNome && !venda.nome.toLowerCase().includes(filtroNome)){
+          return;
+        }
+        if(filtroData && venda.data !== filtroData){
+          return;
+        }
+
+        const tr = document.createElement('tr');
+        tr.classList.add(venda.status === 'Pago' ? 'paid' : 'pending');
+
+        tr.innerHTML = `
           <td>${venda.data}</td>
           <td>${venda.nome}</td>
           <td>${venda.empada}</td>
           <td>${venda.empadaoFrango}</td>
           <td>${venda.empadaoCamarao}</td>
           <td>${venda.sanduiche}</td>
-          <td>${parseFloat(venda.total).toFixed(2)}</td>
+          <td>${formatarReal(venda.total)}</td>
           <td>
-            <select onchange="atualizarStatusFirebase(this)">
+            <select data-index="${index}" aria-label="Status da venda de ${venda.nome}">
               <option value="Pendente" ${venda.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
               <option value="Pago" ${venda.status === 'Pago' ? 'selected' : ''}>Pago</option>
             </select>
           </td>
-          <td><button class="remover" onclick="removerVendaFirebase(this)">Remover</button></td>
+          <td><button data-index="${index}" class="remover" aria-label="Remover venda de ${venda.nome}">Remover</button></td>
         `;
-      }
 
-      // Carrega vendas do Firebase e atualiza a tabela
-      function carregarVendasDoFirebase() {
-        const vendasRef = ref(db, 'vendas');
-        onValue(vendasRef, (snapshot) => {
-          const tabelaBody = document.querySelector('#tabela tbody');
-          tabelaBody.innerHTML = ''; // Limpa tabela
-          vendasClear();
-
-          const dados = snapshot.val();
-          if (!dados) return;
-
-          Object.entries(dados).forEach(([id, venda]) => {
-            vendas[id] = venda;
-            adicionarLinhaTabela(id, venda);
-          });
-
-          filtrarTabela();
-        });
-      }
-
-      carregarVendasDoFirebase();
-
-      // Adiciona cliente/venda no Firebase
-      async function adicionarCliente() {
-        const dataInput = document.getElementById('data').value.trim();
-        const nome = document.getElementById('nome').value.trim();
-        const empada = parseInt(document.getElementById('empada').value) || 0;
-        const empadaoFrango = parseInt(document.getElementById('empadaoFrango').value) || 0;
-        const empadaoCamarao = parseInt(document.getElementById('empadaoCamarao').value) || 0;
-        const sanduiche = parseInt(document.getElementById('sanduiche').value) || 0;
-        const status = document.getElementById('status').value;
-
-        // Validação básica
-        if (!dataInput || !validarDataBR(dataInput)) {
-          alert('Data inválida! Use o formato dd/mm/aaaa.');
-          return;
-        }
-        if (!nome) {
-          alert('Nome do cliente é obrigatório.');
-          return;
-        }
-
-        const total =
-          empada * PRECO_EMPADA +
-          empadaoFrango * PRECO_EMPADAO_FRANGO +
-          empadaoCamarao * PRECO_EMPADAO_CAMARAO +
-          sanduiche * PRECO_SANDUICHE;
-
-        const vendaObj = {
-          data: dataInput,
-          nome,
-          empada,
-          empadaoFrango,
-          empadaoCamarao,
-          sanduiche,
-          total: total.toFixed(2),
-          status
-        };
-
-        try {
-          await push(ref(db, 'vendas'), vendaObj);
-          // Limpar campos após adicionar
-          document.getElementById('nome').value = '';
-          document.getElementById('empada').value = '0';
-          document.getElementById('empadaoFrango').value = '0';
-          document.getElementById('empadaoCamarao').value = '0';
-          document.getElementById('sanduiche').value = '0';
-          document.getElementById('status').value = 'Pendente';
-          preencherDataAtual();
-        } catch (error) {
-          alert('Erro ao adicionar venda: ' + error.message);
-        }
-      }
-
-      // Atualiza status no Firebase ao mudar select
-      window.atualizarStatusFirebase = async function (selectElement) {
-        const linha = selectElement.closest('tr');
-        const id = linha.dataset.id;
-        const novoStatus = selectElement.value;
-        if (!id) return;
-
-        try {
-          await update(ref(db, `vendas/${id}`), { status: novoStatus });
-        } catch (error) {
-          alert('Erro ao atualizar status: ' + error.message);
-        }
-      };
-
-      // Remove venda no Firebase ao clicar no botão
-      window.removerVendaFirebase = async function (button) {
-        const linha = button.closest('tr');
-        const id = linha.dataset.id;
-        if (!id) return;
-
-        if (!confirm('Deseja realmente remover essa venda?')) return;
-
-        try {
-          await remove(ref(db, `vendas/${id}`));
-        } catch (error) {
-          alert('Erro ao remover venda: ' + error.message);
-        }
-      };
-
-      // Filtro da tabela (existe em seu código)
-      window.filtrarTabela = function () {
-        const filtroStatus = document.getElementById('filtroStatus').value.toLowerCase();
-        const filtroNome = document.getElementById('filtroNome').value.toLowerCase();
-        const filtroData = document.getElementById('filtroData').value.toLowerCase();
-
-        const linhas = document.querySelectorAll('#tabela tbody tr');
-
-        linhas.forEach(linha => {
-          const status = linha.querySelector('td:nth-child(8)').textContent.toLowerCase();
-          const nome = linha.querySelector('td:nth-child(2)').textContent.toLowerCase();
-          const data = linha.querySelector('td:nth-child(1)').textContent.toLowerCase();
-
-          const mostra =
-            (filtroStatus === 'todos' || status === filtroStatus) &&
-            nome.includes(filtroNome) &&
-            data.includes(filtroData);
-
-          linha.style.display = mostra ? '' : 'none';
-        });
-      };
-
-      // Adiciona evento ao botão
-      document.getElementById('btnAdicionar').addEventListener('click', (e) => {
-        e.preventDefault();
-        adicionarCliente();
+        tabelaCorpo.appendChild(tr);
       });
 
+      // Adiciona eventos nos selects de status para atualizar status ao alterar
+      tabelaCorpo.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', e => {
+          const idx = Number(e.target.dataset.index);
+          vendas[idx].status = e.target.value;
+          atualizarTotais();
+          atualizarTabela();
+        });
+      });
+
+      // Adiciona eventos nos botões remover
+      tabelaCorpo.querySelectorAll('button.remover').forEach(botao => {
+        botao.addEventListener('click', e => {
+          const idx = Number(e.target.dataset.index);
+          if(confirm(`Deseja remover a venda de ${vendas[idx].nome} datada ${vendas[idx].data}?`)){
+            vendas.splice(idx, 1);
+            atualizarTotais();
+            atualizarTabela();
+          }
+        });
+      });
+    }
+
+    // Atualizar totais mostrados na aba principal e na aba receita ganhos
+    function atualizarTotais() {
+      let totalVendido = 0;
+      let totalPago = 0;
+      let totalPendente = 0;
+
+      vendas.forEach(venda => {
+        totalVendido += venda.total;
+        if(venda.status === 'Pago'){
+          totalPago += venda.total;
+        } else {
+          totalPendente += venda.total;
+        }
+      });
+
+      totalGeral.textContent = `Total vendido: ${formatarReal(totalVendido)} (Pago: ${formatarReal(totalPago)} | Pendentes: ${formatarReal(totalPendente)})`;
+
+      // Atualizar ganhos da aba receita
+      totalGanhosSpan.textContent = totalPago.toFixed(2).replace('.', ',');
+      totalGanhosSpan.textContent = formatarReal(totalPago);
+    }
+
+    // Filtrar tabela
+    function filtrarTabela() {
+      atualizarTabela();
+    }
+
+    // Eventos filtros
+    document.getElementById('filtroStatus').addEventListener('change', filtrarTabela);
+    document.getElementById('filtroNome').addEventListener('input', filtrarTabela);
+    document.getElementById('filtroData').addEventListener('input', filtrarTabela);
+
+    // Cadastrar cliente na aba clientes
+    formCadastrarCliente.addEventListener('submit', e => {
+      e.preventDefault();
+      const nome = inputNomeCliente.value.trim();
+      if(nome === ''){
+        alert('Informe o nome do cliente para cadastrar.');
+        inputNomeCliente.focus();
+        return;
+      }
+      // Checar duplicado
+      if(clientes.includes(nome.toLowerCase())){
+        alert('Cliente já cadastrado.');
+        inputNomeCliente.value = '';
+        inputNomeCliente.focus();
+        return;
+      }
+      clientes.push(nome.toLowerCase());
+      atualizarListaClientes();
+      atualizarDatalistClientes();
+      inputNomeCliente.value = '';
+      inputNomeCliente.focus();
     });
+
+    // Atualizar lista de clientes na aba clientes
+    function atualizarListaClientes(){
+      listaClientesUl.innerHTML = '';
+      clientes.forEach(cliente => {
+        const li = document.createElement('li');
+        li.textContent = cliente.charAt(0).toUpperCase() + cliente.slice(1);
+        listaClientesUl.appendChild(li);
+      });
+    }
+
+    // Atualizar datalist de clientes para auto completar na aba principal
+    function atualizarDatalistClientes(){
+      datalistClientes.innerHTML = '';
+      clientes.forEach(cliente => {
+        const option = document.createElement('option');
+        option.value = cliente.charAt(0).toUpperCase() + cliente.slice(1);
+        datalistClientes.appendChild(option);
+      });
+    }
+
+    // Inicializar algumas funções
+    atualizarTabela();
+    atualizarTotais();
+    atualizarListaClientes();
+    atualizarDatalistClientes();
+
+    // --- Gráfico com Chart.js ---
+
+    let chart = null;
+
+    function atualizarGrafico(){
+      // Organizar vendas por mês (data dd/mm/aaaa)
+      // Somar total de vendas pagas por mês
+      let vendasPorMes = {};
+
+      vendas.forEach(venda => {
+        if(venda.status === 'Pago'){
+          const partes = venda.data.split('/');
+          if(partes.length === 3){
+            const mesAno = partes[1] + '/' + partes[2]; // mm/yyyy
+            vendasPorMes[mesAno] = (vendasPorMes[mesAno] || 0) + venda.total;
+          }
+        }
+      });
+
+      // Ordenar por data crescente
+      const mesesOrdenados = Object.keys(vendasPorMes).sort((a,b) => {
+        const [mA, aA] = a.split('/');
+        const [mB, aB] = b.split('/');
+        return new Date(aA, mA-1) - new Date(aB, mB-1);
+      });
+
+      const valores = mesesOrdenados.map(mes => vendasPorMes[mes]);
+
+      // Criar ou atualizar gráfico
+      const ctx = document.getElementById('graficoVendas').getContext('2d');
+      if(chart) chart.destroy();
+
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: mesesOrdenados,
+          datasets: [{
+            label: 'Vendas Pagas (R$)',
+            data: valores,
+            backgroundColor: 'rgba(211, 84, 0, 0.7)',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return 'R$ ' + value.toLocaleString('pt-BR');
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#d35400',
+                font: {weight: '700', size: 14}
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: context => `R$ ${context.parsed.y.toFixed(2).replace('.', ',')}`
+              }
+            }
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
