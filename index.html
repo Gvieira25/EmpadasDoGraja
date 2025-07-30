@@ -544,6 +544,11 @@
 
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Firebase SDKs via CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
 
   <script>
     // Controle do menu hamburguer e menu lateral
@@ -701,8 +706,8 @@
         empadaoCamarao * precos.empadaoCamarao +
         sanduiche * precos.sanduiche;
 
-      // Adiciona venda na lista
-      vendas.push({
+      // Envia para o Firebase
+      db.collection("vendas").add({
         data,
         nome,
         empada,
@@ -949,5 +954,24 @@
       });
     }
   </script>
+
+  <!-- Inicialização do Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAQTIteo3w2VpSl2G1irbJxzu6kPePEoT4",
+      authDomain: "empadas-do-graja.firebaseapp.com",
+      databaseURL: "https://empadas-do-graja-default-rtdb.firebaseio.com",
+      projectId: "empadas-do-graja",
+      storageBucket: "empadas-do-graja.appspot.com",
+      messagingSenderId: "614514855189",
+      appId: "1:614514855189:web:b739018a71a1edd116ed1c",
+      measurementId: "G-XYHT8B9M7V"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const db = firebase.firestore();
+  </script>
 </body>
 </html>
+
